@@ -33,10 +33,12 @@ async function initDB() {
   }
 }
 
+//test api
 app.get("/", (req, res) => {
   res.send("It's working");
 });
 
+//retrieve all transactions by user_id
 app.get("/api/transactions/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
@@ -50,6 +52,7 @@ app.get("/api/transactions/:userId", async (req, res) => {
   }
 });
 
+//add a new transaction
 app.post("/api/transactions", async (req, res) => {
   try {
     const { title, amount, user_id, category } = req.body;
@@ -73,6 +76,25 @@ app.post("/api/transactions", async (req, res) => {
 
 //console.log(process.env.PORT);
 
+//delete a transaction by id
+app.delete("/api/transactions/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result =
+      await sql`DELETE FROM transactions WHERE id=${id} RETURNING *`;
+
+    if (result.length === 0) {
+      return res.status(404).json({ message: "Transaction not found" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "Transaction deleted successfully" });
+  } catch (error) {
+    console.log("Error deleting the transaction", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
 initDB().then(() => {
   app.listen(PORT, () => {
     console.log("Server is up and running on PORT:", PORT);
