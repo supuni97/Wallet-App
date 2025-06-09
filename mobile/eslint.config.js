@@ -1,10 +1,20 @@
-// https://docs.expo.dev/guides/using-eslint/
-const { defineConfig } = require('eslint/config');
-const expoConfig = require('eslint-config-expo/flat');
+import eslintPluginImport from "eslint-plugin-import";
 
-module.exports = defineConfig([
-  expoConfig,
+export default [
   {
-    ignores: ['dist/*'],
+    plugins: {
+      import: eslintPluginImport,
+    },
+    settings: {
+      "import/resolver": {
+        alias: {
+          map: [["@", "./mobile"]],
+          extensions: [".js", ".jsx", ".ts", ".tsx"],
+        },
+      },
+    },
+    rules: {
+      "import/no-unresolved": "error",
+    },
   },
-]);
+];
