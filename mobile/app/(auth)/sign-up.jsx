@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  KeyboardAvoidingView,
-} from "react-native";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useSignUp } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -41,9 +35,11 @@ export default function SignUpScreen() {
       // and capture OTP code
       setPendingVerification(true);
     } catch (err) {
-      // See https://clerk.com/docs/custom-flows/error-handling
-      // for more info on error handling
-      console.error(JSON.stringify(err, null, 2));
+      if (err.errors?.[0]?.code === "form_identifier_exists") {
+        setError("This email is already in use. Please try another");
+      } else {
+        setError("An error occurred. Please try again");
+      }
     }
   };
 
@@ -128,7 +124,7 @@ export default function SignUpScreen() {
         ) : null}
 
         <TextInput
-          style={[styles.input, error && errorInput]}
+          style={[styles.input, error && styles.errorInput]}
           autoCapitalize="none"
           value={emailAddress}
           placeholder="Enter email"
@@ -136,7 +132,7 @@ export default function SignUpScreen() {
           onChangeText={(email) => setEmailAddress(email)}
         />
         <TextInput
-          style={[styles.input, error && errorInput]}
+          style={[styles.input, error && styles.errorInput]}
           placeholderTextColor="#9A8478"
           value={password}
           placeholder="Enter password"
