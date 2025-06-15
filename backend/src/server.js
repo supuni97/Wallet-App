@@ -4,6 +4,7 @@ import { initDB } from "./config/db.js";
 import ratelimiter from "../middleware/rateLimiter.js";
 import transactionsRoute from "./routes/transactionsRoute.js";
 import cors from "cors";
+
 dotenv.config();
 
 const app = express();
@@ -17,6 +18,10 @@ app.use((req, res, next) => {
 });
 
 const PORT = process.env.PORT || 5001;
+
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
 
 app.use("/api/transactions", transactionsRoute);
 

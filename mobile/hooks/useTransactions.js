@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import { Alert } from "react-native";
 
 const API_URL = "http://localhost:5001/api";
+// api url- wallet-api-production-2650.up.railway.app
 
 export const useTransitions = (userId) => {
   const [transactions, setTransactions] = useState([]);
