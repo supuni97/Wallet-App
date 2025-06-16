@@ -19,7 +19,7 @@ export const BalanceCard = ({ summary }) => {
         <View style={[styles.balanceStatItem, styles.statDivider]} />
         <View style={styles.balanceStatItem}>
           <Text style={styles.balanceStatLabel}>Expenses</Text>
-          <Text style={[styles.balanceStatAmount, { color: COLORS.income }]}>
+          <Text style={[styles.balanceStatAmount, { color: COLORS.expense }]}>
             -${Math.abs(parseFloat(summary.expenses)).toFixed(2)}
           </Text>
         </View>
