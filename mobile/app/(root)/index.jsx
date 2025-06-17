@@ -16,6 +16,8 @@ import { styles } from "../../assets/styles/home.styles";
 import { Ionicons } from "@expo/vector-icons";
 import { BalanceCard } from "../../components/BalanceCard";
 import { TransactionItem } from "../../components/TransactionItem";
+import NoTransactionsFound from "../../components/NoTransactionsFound";
+
 export default function Page() {
   const { user } = useUser();
   const { transactions, summary, isLoading, loadData, deleteTransaction } =
@@ -25,7 +27,7 @@ export default function Page() {
     loadData();
   }, [loadData]);
 
-  // console.log("userId:", user.id);
+  console.log("userId:", user.id);
 
   // console.log("Transactions:", transactions);
   // console.log("Summary:", summary);
@@ -91,6 +93,7 @@ export default function Page() {
         renderItem={({ item }) => (
           <TransactionItem item={item} onDelete={handleDelete} />
         )}
+        ListEmptyComponent={<NoTransactionsFound />}
       />
     </View>
   );
