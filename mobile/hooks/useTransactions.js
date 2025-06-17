@@ -44,7 +44,7 @@ export const useTransitions = (userId) => {
     }
   }, [fetchTransactions, fetchSummary, userId]);
 
-  const deleteTransactions = async (id) => {
+  const deleteTransaction = async (id) => {
     try {
       const response = await fetch(`${API_URL}/transactions/${id}`, {
         method: "DELETE",
@@ -58,5 +58,5 @@ export const useTransitions = (userId) => {
     }
   };
 
-  return { transactions, summary, isLoading, loadData, deleteTransactions };
+  return { transactions, summary, isLoading, loadData, deleteTransaction };
 };
