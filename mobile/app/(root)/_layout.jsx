@@ -1,10 +1,24 @@
 import { Stack } from "expo-router/stack";
 import { Redirect } from "expo-router";
 import { useUser } from "@clerk/clerk-expo";
-export default function Layout() {
-  const { isSignedIn } = useUser();
+import { View, ActivityIndicator } from "react-native";
+import { COLORS } from "../../constants/colors"; // or just hardcode a color
 
-  if (!isSignedIn) return <Redirect href={"/sign-in"} />;
+export default function Layout() {
+  const { isSignedIn, isLoaded } = useUser();
+
+  if (!isLoaded) {
+    // Show loading screen while checking auth
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color={COLORS.primary || "#000"} />
+      </View>
+    );
+  }
+
+  if (!isSignedIn) {
+    return <Redirect href="/sign-in" />;
+  }
 
   return <Stack screenOptions={{ headerShown: false }} />;
 }
